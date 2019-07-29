@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-xs-12">
+        <form (ngSubmit)="onSubmit(f)" #f="ngForm" >
+            <div class="row">
+                <div class="col-sm-6 form-group">
+                    <label for="name">Task</label>
+                    <input 
+                        type="text" 
+                        id="task" 
+                        class="form-control"
+                        name="task"
+                        ngModel
+                        required>         
+                        <span class></span>               
+                </div>              
+                <div class="col-sm-6 form-group">
+                    <label for="amount">Detail</label>
+                    <input 
+                        type="text" 
+                        id="detail" 
+                        class="form-control"
+                        name="detail"
+                        ngModel
+                        required
+                        >  
+                </div>
+            </div>
+            <p class="help-block" *ngIf="!f.valid && f.touched ">Please type your Task!</p>
+            <div class="row">
+                <div class="col-xs-12">
+                    <button class="btn btn-success" type="submit" [disabled]="!f.valid" >Add</button>
+                    <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
