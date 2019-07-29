@@ -28,11 +28,10 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a style="cursor: pointer" (click)="onEditRecipe(i)" >Edit</a></li>
-                            <li><a style="cursor: pointer" >Send to Completed</a></li>
+                            <li><a style="cursor: pointer" (click)="onSendToCompleted(i)">Send to Completed</a></li>
                             <li><a style="cursor: pointer" (click)="onDelete(i)">Delete</a></li>
                         </ul>
                     </div>
-
                 </div>
 
             </li>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Task } from '../shared/task.model';
+import { Task } from '../task.model';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -23,7 +23,7 @@ export class TasksService {
     this.tasks = tasks;
     this.tasksChanged.next(this.tasks.slice());
   }
-  geTaskToEdit(index:number) {
+  geTask(index:number) {
     return this.tasks[index];
   }
   updateTask(index: number, newTask: Task){

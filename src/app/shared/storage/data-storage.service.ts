@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { TasksService } from '../body/tasks.service';
-import { Task } from './task.model';
+import { TasksService } from '../services/tasks.service';
+import { Task } from '../task.model';
 import { map, tap, take, exhaustMap } from 'rxjs/operators';
 
 @Injectable({

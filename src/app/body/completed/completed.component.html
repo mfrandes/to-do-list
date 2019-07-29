@@ -12,16 +12,24 @@
                     <p>Option</p>
                 </div>
             </li>
-            <li class="list-group-item clearfix">
+            <li class="list-group-item clearfix" *ngFor="let comTask of completTasks; let j = index">
                 <div class="col-xs-5">
-                    <p>Items</p>
+                    <p>{{comTask.taskName}}</p>
                 </div>
                 <div class="col-xs-5">
-                    <p>Date</p>
+                    <p>{{comTask.taskDetails}}</p>
                 </div>
                 <div class="col-xs-2">
-                    <button class="btn btn-danger">Remove</button>
-                </div> 
+                    <div class="btn-group " appDropdown>
+                        <button type="button" class="btn btn-primary dropdown-toggle ">
+                            Manage task <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a style="cursor: pointer" (click)="onSendTasks(j)">Send to Tasks</a></li>
+                            <li><a style="cursor: pointer" (click)="onDelete(j)">Delete</a></li>
+                        </ul>
+                    </div>
+                </div>
             </li>
         </ul>
     </div>

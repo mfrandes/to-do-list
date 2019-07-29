@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { TasksService } from '../../tasks.service';
+import { TasksService } from '../../../shared/services/tasks.service';
 import { NgForm } from '@angular/forms';
 import { Task } from 'src/app/shared/task.model';
 
@@ -21,7 +21,7 @@ export class ListEditComponent implements OnInit {
       (index: number) => {
         this.editedIndex = index;
         this.editMode = true;
-        this.editedTask = this.tasksService.geTaskToEdit(this.editedIndex)
+        this.editedTask = this.tasksService.geTask(this.editedIndex)
         this.taskForm.setValue({
           task: this.editedTask.taskName,
           detail: this.editedTask.taskDetails
