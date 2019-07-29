@@ -28,13 +28,22 @@ export class ListEditComponent implements OnInit {
         }) 
       }
       
+      
     )
+    
   }
   onSubmit(form: NgForm){
     const value = form.value;
     const newTask = new Task(value.task, value.detail);
-    this.tasksService.saveNewTask(newTask)
-    console.log(newTask);
-    
+    if(this.editMode){
+      this.tasksService.updateTask(this.editedIndex, newTask)
+    } else {
+      this.tasksService.saveNewTask(newTask)
+    }    
+    this.onClear()
+  }
+  onClear() {
+    this.taskForm.reset();
+    this.editMode = false;
   }
 }

@@ -28,7 +28,7 @@
             <p class="help-block" *ngIf="!f.valid && f.touched ">Please type your Task!</p>
             <div class="row">
                 <div class="col-xs-12">
-                    <button class="btn btn-success" type="submit" [disabled]="!f.valid" >Add</button>
+                    <button class="btn btn-success" type="submit" [disabled]="!f.valid" >{{editMode ? 'Update' : 'Add'}}</button>
                     <button class="btn btn-primary" type="button" (click)="onClear()">Clear</button>
                 </div>
             </div>

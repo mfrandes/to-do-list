@@ -26,5 +26,7 @@ export class ListComponent implements OnInit {
   onEditRecipe(index){
     this.tasksService.startedEditing.next(index)
   }
-
+  onDelete(index: number){
+    this.tasksService.deleteTask(index)
+  }
 }
