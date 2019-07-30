@@ -10,6 +10,9 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
+                    <a>{{userEmail}}</a>
+                </li>
+                <li>
                     <a style="cursor: pointer" [routerLink]="['/auth']" *ngIf="!isAuthenticated">Login / Singup</a>
                 </li>
                 <li>

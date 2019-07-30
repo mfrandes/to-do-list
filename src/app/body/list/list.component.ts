@@ -42,6 +42,7 @@ export class ListComponent implements OnInit {
   }
   onEditTask(index){
     if(!this.isAdmin){
+      alert('Only Admin can perform this action!')
       return
     }
     this.tasksService.startedEditing.next(index)
@@ -53,6 +54,7 @@ export class ListComponent implements OnInit {
   }
   onDelete(index: number){
     if(!this.isAdmin){
+      alert('Only Admin can perform this action!')
       return
     }
     this.tasksService.deleteTask(index)

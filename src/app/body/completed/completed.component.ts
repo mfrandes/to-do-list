@@ -47,6 +47,7 @@ export class CompletedComponent implements OnInit {
   }
   onDelete(index: number){
     if(!this.isAdmin){
+      alert('Only Admin can perform this action!')
       return
     }
     this.completedService.deleteTask(index);
