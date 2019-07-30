@@ -12,7 +12,10 @@ import { CompletedComponent } from './body/completed/completed.component';
 import { ListEditComponent } from './body/list/list-edit/list-edit.component';
 import { AppRoutingModule } from './app-router-module';
 import { DropdownDirective } from './shared/dropdown.directive';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AlertComponent } from './shared/alert/alert.component';
+import { IntecetorService } from './auth/intecetor.service';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -24,12 +27,20 @@ import { HttpClientModule } from '@angular/common/http';
     ListComponent,
     CompletedComponent,
     ListEditComponent,
-    DropdownDirective
+    DropdownDirective,
+    AlertComponent
   ],
   imports: [
-    BrowserModule,AppRoutingModule,FormsModule,HttpClientModule
+    BrowserModule,AppRoutingModule,FormsModule,HttpClientModule, CommonModule
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: IntecetorService,
+    multi: true
+}],
+entryComponents:[
+  AlertComponent
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
