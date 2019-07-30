@@ -3,8 +3,6 @@ import { NgForm } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { AuthResponseData, AuthService } from './auth.service';
 import { Router } from '@angular/router';
-import { AlertComponent } from '../shared/alert/alert.component';
-import { PlaceholderDirective } from '../shared/placeholder/placeholder.directive';
 
 @Component({
   selector: 'app-auth',
@@ -16,7 +14,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLogIn = true;
   isAdmin = false;
   error: string = null;
-  @ViewChild(PlaceholderDirective, { static: false }) allertHost: PlaceholderDirective;
   constructor(private authService: AuthService,
               private router: Router){}
 

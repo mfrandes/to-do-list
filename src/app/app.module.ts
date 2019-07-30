@@ -28,7 +28,7 @@ import { CommonModule } from '@angular/common';
     CompletedComponent,
     ListEditComponent,
     DropdownDirective,
-    AlertComponent
+    AlertComponent,
   ],
   imports: [
     BrowserModule,AppRoutingModule,FormsModule,HttpClientModule, CommonModule
