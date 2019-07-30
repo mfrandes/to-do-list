@@ -14,13 +14,14 @@ import { PlaceholderDirective } from '../shared/placeholder/placeholder.directiv
 export class AuthComponent implements OnInit, OnDestroy {
   private closeSubscription: Subscription;
   isLogIn = true;
+  isAdmin = false;
   error: string = null;
   @ViewChild(PlaceholderDirective, { static: false }) allertHost: PlaceholderDirective;
   constructor(private authService: AuthService,
-              private router: Router,
-              private componentFactory: ComponentFactoryResolver) { }
+              private router: Router){}
 
   ngOnInit() {
+    
   }
   onSwitch(){
     this.isLogIn = !this.isLogIn;

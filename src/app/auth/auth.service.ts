@@ -62,7 +62,7 @@ export class AuthService {
       case 'EMAIL_EXISTS':
         errorMessage= "Email allredy in use!"
         break;
-      case 'MAIL_NOT_FOUND':
+      case 'EMAIL_NOT_FOUND':
         errorMessage= 'Invalid email or password'
         break;
       case 'INVALID_PASSWORD':

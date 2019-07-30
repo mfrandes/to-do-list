@@ -27,7 +27,7 @@
                             Manage task <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a style="cursor: pointer" (click)="onEditRecipe(i)" >Edit</a></li>
+                            <li><a style="cursor: pointer" (click)="onEditTask(i)" >Edit</a></li>
                             <li><a style="cursor: pointer" (click)="onSendToCompleted(i)">Send to Completed</a></li>
                             <li><a style="cursor: pointer" (click)="onDelete(i)">Delete</a></li>
                         </ul>
@@ -36,5 +36,6 @@
 
             </li>
         </ul>
+        <p *ngIf="!isAdmin">Only Admins are alowed to edit and delete</p>
     </div>
 </div>

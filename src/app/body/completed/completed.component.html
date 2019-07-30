@@ -25,12 +25,13 @@
                             Manage task <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a style="cursor: pointer" (click)="onSendTasks(j)">Send to Tasks</a></li>
-                            <li><a style="cursor: pointer" (click)="onDelete(j)">Delete</a></li>
+                            <li><a style="cursor: pointer"  (click)="onSendTasks(j)">Send to Tasks</a></li>
+                            <li><a style="cursor: pointer"  (click)="onDelete(j)">Delete</a></li>
                         </ul>
                     </div>
                 </div>
             </li>
         </ul>
+        <p *ngIf="!isAdmin">Only Admins are alowed to delete</p>
     </div>
 </div>

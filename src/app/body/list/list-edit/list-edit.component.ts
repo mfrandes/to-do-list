@@ -26,9 +26,7 @@ export class ListEditComponent implements OnInit {
           task: this.editedTask.taskName,
           detail: this.editedTask.taskDetails
         }) 
-      }
-      
-      
+      } 
     )
     
   }

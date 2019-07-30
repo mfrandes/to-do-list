@@ -3,6 +3,7 @@ import { TasksService } from '../../shared/services/tasks.service';
 import { Task } from 'src/app/shared/task.model';
 import { DataStorageService } from 'src/app/shared/storage/data-storage.service';
 import { CompletedService } from 'src/app/shared/services/completed.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-list',
@@ -11,9 +12,11 @@ import { CompletedService } from 'src/app/shared/services/completed.service';
 })
 export class ListComponent implements OnInit {
   tasks: Task[];
+  isAdmin = false;
   constructor(private tasksService: TasksService,
               private dataStorage: DataStorageService,
-              private completeService: CompletedService) { }
+              private completeService: CompletedService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.dataStorage.fetchTasks().subscribe();
@@ -24,8 +27,23 @@ export class ListComponent implements OnInit {
         this.dataStorage.storeTasks()
       }
     )
+    this.authService.user.subscribe(
+      user =>{
+        if(!user){
+          return
+        }
+        if(user.email === 'admin@test.com'){
+          this.isAdmin = true;          
+        } else {
+          this.isAdmin = false;
+        }
+      }
+    )
   }
-  onEditRecipe(index){
+  onEditTask(index){
+    if(!this.isAdmin){
+      return
+    }
     this.tasksService.startedEditing.next(index)
   }
   onSendToCompleted(index: number){
@@ -34,6 +52,9 @@ export class ListComponent implements OnInit {
     this.onDelete(index);
   }
   onDelete(index: number){
+    if(!this.isAdmin){
+      return
+    }
     this.tasksService.deleteTask(index)
   }
 }
