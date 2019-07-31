@@ -9,6 +9,7 @@ import { AuthService } from '../auth/auth.service';
 export class HeaderComponent implements OnInit {
   isAuthenticated = false;
   userEmail;
+  collapsed = true
   constructor(private authService: AuthService) { }
 
   ngOnInit() {

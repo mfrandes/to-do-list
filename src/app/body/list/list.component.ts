@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class ListComponent implements OnInit {
   tasks: Task[];
   isAdmin = false;
+  samallWindow = false;
   constructor(private tasksService: TasksService,
               private dataStorage: DataStorageService,
               private completeService: CompletedService,

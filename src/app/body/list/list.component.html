@@ -22,9 +22,9 @@
                     <p>{{task.taskDetails}}</p>
                 </div>
                 <div class="col-xs-2">
-                    <div class="btn-group " appDropdown>
-                        <button type="button" class="btn btn-primary dropdown-toggle ">
-                            Manage task <span class="caret"></span>
+                    <div class="btn-group show-small" appDropdown>
+                        <button type="button" class="btn btn-primary dropdown-toggle " (window:resize)="samallWindow = true">
+                            <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
                             <li><a style="cursor: pointer" (click)="onEditTask(i)" >Edit</a></li>
@@ -32,6 +32,16 @@
                             <li><a style="cursor: pointer" (click)="onDelete(i)">Delete</a></li>
                         </ul>
                     </div>
+                    <div class="btn-group hide-small" appDropdown>
+                            <button type="button" class="btn btn-primary dropdown-toggle " (window:resize)="samallWindow = true">
+                               Manage<span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a style="cursor: pointer" (click)="onEditTask(i)" >Edit</a></li>
+                                <li><a style="cursor: pointer" (click)="onSendToCompleted(i)">Send to Completed</a></li>
+                                <li><a style="cursor: pointer" (click)="onDelete(i)">Delete</a></li>
+                            </ul>
+                        </div>
                 </div>
 
             </li>
