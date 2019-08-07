@@ -8,18 +8,18 @@ import { Router } from '@angular/router';
 
 
 export interface AuthResponseData{
-  idToken: string,
-  email: string,
-  refreshToken: string,
-  expiresIn: string,
-  localId: string,
-  registered?: boolean 
+  user:{
+    username: string,
+    _id: string,
+    admin: string
+  }
+  token: string,
 }
 
 @Injectable({
   providedIn: 'root'
 })
-
+// de rezolvat token expires
 export class AuthService {
   user= new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
@@ -27,7 +27,7 @@ export class AuthService {
               private router: Router) { }
   
   signUp(email: string, password: string){
-    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBE9tnVALI3sDT-1r7i9t5p5CgRUaUiz4s',
+    return this.http.post<AuthResponseData>('http://127.0.0.1:8080/api/auth/register',
     {
       email: email,
       password: password,
@@ -35,12 +35,12 @@ export class AuthService {
     }).pipe(
       catchError(this.handleError),
       tap(resData => {
-        this.handleAuthentification(resData.email, resData.localId, resData.idToken, +resData.expiresIn)
+        this.handleAuthentification(resData.user.username, resData.user._id, resData.user.admin, resData.token)
       })
     )
   }
   login(email: string, password: string){
-    return this.http.post<AuthResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBE9tnVALI3sDT-1r7i9t5p5CgRUaUiz4s',
+    return this.http.post<AuthResponseData>('http://127.0.0.1:8080/api/auth/login',
     {
       email: email,
       password: password,
@@ -48,7 +48,7 @@ export class AuthService {
     }).pipe(
       catchError(this.handleError),
       tap(resData => {
-        this.handleAuthentification(resData.email, resData.localId, resData.idToken, +resData.expiresIn)
+        this.handleAuthentification(resData.user.username, resData.user._id, resData.user.admin, resData.token)
       })
     )
   }
@@ -71,9 +71,10 @@ export class AuthService {
     return throwError(errorMessage);
   }
   private handleAuthentification(
-    email:string,
+    unername:string,
     id:string,
     token: string,
+    admin: boolean,
     expiration: number
   ){
     const expireDate =  new Date( new Date().getTime() + expiration * 1000);

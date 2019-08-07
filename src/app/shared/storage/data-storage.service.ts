@@ -14,7 +14,7 @@ export class DataStorageService {
   
   storeTasks(){
   const tasks:Task[]= this.tsksService.getTasks();
-    this.http.put('https://task-project-35a94.firebaseio.com/tasks.json', tasks).subscribe(
+    this.http.post('hhttp://127.0.0.1:8080/api/task-actions', tasks).subscribe(
       () =>{
         console.log(tasks);
         
@@ -22,7 +22,7 @@ export class DataStorageService {
     )
   }
   fetchTasks(){
-    return this.http.get<Task[]>('https://task-project-35a94.firebaseio.com/tasks.json')
+    return this.http.get<Task[]>('hhttp://127.0.0.1:8080/api/task-actions')
     .pipe(map(tasks => {
       return tasks.map((task) => {
           return {...task};
