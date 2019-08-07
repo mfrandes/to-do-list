@@ -25,7 +25,16 @@ export class ListComponent implements OnInit {
     this.tasksService.tasksChanged.subscribe(
       (tasks: Task[]) => {
         this.tasks = tasks
-        this.dataStorage.storeTasks()
+      }
+    )
+    this.tasksService.savedTask.subscribe(
+      task => {
+        this.dataStorage.storeTask(task)
+      }
+    )
+    this.tasksService.updatedTask.subscribe(
+      task => {
+        this.dataStorage.updateTask(task)
       }
     )
     this.authService.user.subscribe(
@@ -33,7 +42,7 @@ export class ListComponent implements OnInit {
         if(!user){
           return
         }
-        if(user.email === 'admin@test.com'){
+        if(user.admin){
           this.isAdmin = true;          
         } else {
           this.isAdmin = false;

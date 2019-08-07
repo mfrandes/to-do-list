@@ -12,14 +12,27 @@ export class DataStorageService {
   constructor(private http: HttpClient,
               private tsksService: TasksService) { }
   
-  storeTasks(){
+  /*storeTasks(){
   const tasks:Task[]= this.tsksService.getTasks();
-    this.http.post('hhttp://127.0.0.1:8080/api/task-actions', tasks).subscribe(
+    this.http.post('http://127.0.0.1:8080/api/task-actions', tasks).subscribe(
       () =>{
         console.log(tasks);
         
       }
     )
+  }*/
+  storeTask(task:Task){
+    this.http.post('http://127.0.0.1:8080/api/task-actions', task).subscribe(
+      ()=>{
+        console.log(task);
+      }
+    )
+  }
+  updateTask(task){
+    this.http.patch('http://127.0.0.1:8080/api/task-actions', task).subscribe(
+      ()=> console.log('task updated')  
+    )
+
   }
   fetchTasks(){
     return this.http.get<Task[]>('hhttp://127.0.0.1:8080/api/task-actions')

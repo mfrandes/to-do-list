@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 export class AuthComponent implements OnInit, OnDestroy {
   private closeSubscription: Subscription;
   isLogIn = true;
-  isAdmin = false;
   error: string = null;
   constructor(private authService: AuthService,
               private router: Router){}

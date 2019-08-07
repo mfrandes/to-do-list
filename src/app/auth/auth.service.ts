@@ -11,7 +11,7 @@ export interface AuthResponseData{
   user:{
     username: string,
     _id: string,
-    admin: string
+    admin: boolean
   }
   token: string,
 }
@@ -72,13 +72,18 @@ export class AuthService {
   }
   private handleAuthentification(
     unername:string,
-    id:string,
-    token: string,
+    userId:string,
     admin: boolean,
-    expiration: number
+    token: string,
+    expiration?: number
   ){
     const expireDate =  new Date( new Date().getTime() + expiration * 1000);
-    const user = new User(email, id, token, expireDate);
+    const user = new User(
+      unername, 
+      userId, 
+      admin, 
+      token, 
+      expireDate);
     this.user.next(user);
     this.autoLogout(expiration * 1000);
     localStorage.setItem('userData', JSON.stringify(user));
@@ -101,6 +106,7 @@ export class AuthService {
     const userData: {
       email: string,
       id: string,
+      admin: boolean,
       _token: string,
       _tokenExpirationDate: string
     } = JSON.parse(localStorage.getItem('userData'));
@@ -110,6 +116,7 @@ export class AuthService {
     const loadedUser = new User(
       userData.email,
       userData.id,
+      userData.admin,
       userData._token,
       new Date(userData._tokenExpirationDate)
     )
