@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { TasksService } from '../services/tasks.service';
 import { Task } from '../task.model';
 import { map, tap, take, exhaustMap } from 'rxjs/operators';
@@ -22,20 +22,29 @@ export class DataStorageService {
     )
   }*/
   storeTask(task:Task){
-    this.http.post('http://127.0.0.1:8080/api/task-actions', task).subscribe(
+    this.http.post('http://127.0.0.1:8080/api/tasks', task).subscribe(
       ()=>{
         console.log(task);
       }
     )
   }
   updateTask(task){
-    this.http.patch('http://127.0.0.1:8080/api/task-actions', task).subscribe(
+    const id = task.id
+    this.http.patch('http://127.0.0.1:8080/api/tasks/'+id, task,
+    
+    ).subscribe(
+      ()=> console.log('task updated'+id)  
+    )
+  }
+  deleteTask(task){
+    const id = task.id
+    this.http.patch('http://127.0.0.1:8080/api/tasks/'+ id, task 
+    ).subscribe(
       ()=> console.log('task updated')  
     )
-
   }
   fetchTasks(){
-    return this.http.get<Task[]>('hhttp://127.0.0.1:8080/api/task-actions')
+    return this.http.get<Task[]>('http://127.0.0.1:8080/api/tasks')
     .pipe(map(tasks => {
       return tasks.map((task) => {
           return {...task};

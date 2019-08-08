@@ -32,7 +32,7 @@ export class ListComponent implements OnInit {
         this.dataStorage.storeTask(task)
       }
     )
-    this.tasksService.updatedTask.subscribe(
+    this.tasksService.savedTaskUpdate.subscribe(
       task => {
         this.dataStorage.updateTask(task)
       }

@@ -29,7 +29,7 @@ export class AuthService {
   signUp(email: string, password: string){
     return this.http.post<AuthResponseData>('http://127.0.0.1:8080/api/auth/register',
     {
-      email: email,
+      username: email,
       password: password,
       returnSecureToken: true
     }).pipe(
@@ -42,7 +42,7 @@ export class AuthService {
   login(email: string, password: string){
     return this.http.post<AuthResponseData>('http://127.0.0.1:8080/api/auth/login',
     {
-      email: email,
+      username: email,
       password: password,
       returnSecureToken: true
     }).pipe(
@@ -54,19 +54,19 @@ export class AuthService {
   }
 
   private handleError(errorResponse: HttpErrorResponse){
-    let errorMessage = "An unknown error accured!";
-    if(!errorResponse.error || !errorResponse.error.error){
+    let errorMessage = "An unknown error accured!";    
+    if(!errorResponse.error){
       return throwError(errorMessage);
     }
-    switch(errorResponse.error.error.message){
-      case 'EMAIL_EXISTS':
+    switch(errorResponse.error.message){
+      case 'User already exists':
         errorMessage= "Email allredy in use!"
         break;
-      case 'EMAIL_NOT_FOUND':
-        errorMessage= 'Invalid email or password'
+      case 'Invalid credentials':
+        errorMessage= 'Invalid credentials'
         break;
-      case 'INVALID_PASSWORD':
-        errorMessage = "Invalid email or password"
+      case 'Invalid credentials':
+        errorMessage = "Invalid credentials"
     }
     return throwError(errorMessage);
   }
@@ -75,7 +75,7 @@ export class AuthService {
     userId:string,
     admin: boolean,
     token: string,
-    expiration?: number
+    expiration: number = 43200
   ){
     const expireDate =  new Date( new Date().getTime() + expiration * 1000);
     const user = new User(

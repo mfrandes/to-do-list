@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 export class TasksService {
   tasksChanged = new Subject<Task[]>()
   savedTask = new Subject<Task>()
-  updatedTask = new Subject<Task>()
+  savedTaskUpdate= new Subject<Task>()
   startedEditing = new Subject<number>()
   constructor() { }
   private tasks: Task[] = [];
@@ -29,10 +29,9 @@ export class TasksService {
   geTask(index:number) {
     return this.tasks[index];
   }
-  updateTask(index: number, newTask: Task){
-    this.tasks[index] = newTask;
+  updateTask(newTask: Task){
+    this.savedTaskUpdate.next(newTask)
     this.tasksChanged.next(this.tasks.slice());
-    this.savedTask.next(newTask)
     console.log('tasks ware changed' + newTask);
 }
   deleteTask(index: number){
