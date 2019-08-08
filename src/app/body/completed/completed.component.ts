@@ -24,8 +24,13 @@ export class CompletedComponent implements OnInit {
     this.completedService.completedTasksChanged.subscribe(
       (tasks: Task[]) =>{
         this.completTasks = tasks;
-        this.completedStorage.storeCompletedTasks();
       }
+    )
+    this.completedService.askToSaveCompleted.subscribe(
+      task => this.completedStorage.storeTask(task)
+    )
+    this.completedService.askToDeleteCompleted.subscribe(
+      id => this.completedStorage.deleteTask(id)
     )
     this.authService.user.subscribe(
       user =>{

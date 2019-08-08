@@ -36,11 +36,10 @@ export class DataStorageService {
       ()=> console.log('task updated'+id)  
     )
   }
-  deleteTask(task){
-    const id = task.id
-    this.http.patch('http://127.0.0.1:8080/api/tasks/'+ id, task 
+  deleteTask(id){
+    this.http.delete('http://127.0.0.1:8080/api/tasks/'+ id, 
     ).subscribe(
-      ()=> console.log('task updated')  
+      ()=> console.log('task deleted')  
     )
   }
   fetchTasks(){

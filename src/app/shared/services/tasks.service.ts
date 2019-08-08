@@ -10,6 +10,7 @@ export class TasksService {
   savedTask = new Subject<Task>()
   savedTaskUpdate= new Subject<Task>()
   startedEditing = new Subject<number>()
+  askToDelete = new Subject<string>()
   constructor() { }
   private tasks: Task[] = [];
  
@@ -29,13 +30,17 @@ export class TasksService {
   geTask(index:number) {
     return this.tasks[index];
   }
-  updateTask(newTask: Task){
-    this.savedTaskUpdate.next(newTask)
+  updateTask(index: number ,newTask: Task){
+    this.tasks[index] = newTask;
+    this.savedTaskUpdate.next(newTask);
+    this.savedTask.next(newTask);
     this.tasksChanged.next(this.tasks.slice());
     console.log('tasks ware changed' + newTask);
 }
   deleteTask(index: number){
+    const taskToDel = this.tasks[index];
     this.tasks.splice(index, 1);
     this.tasksChanged.next(this.tasks.slice());
+    this.askToDelete.next(taskToDel.id);
   }
 }

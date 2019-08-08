@@ -37,7 +37,7 @@ export class ListEditComponent implements OnInit {
     const newTask = new Task(value.task, value.detail);
     if(this.editMode){
       newTask.id = this.editedTask.id
-      this.tasksService.updateTask(newTask)
+      this.tasksService.updateTask(this.editedIndex, newTask)
     } else {
       this.tasksService.saveNewTask(newTask)
     }    

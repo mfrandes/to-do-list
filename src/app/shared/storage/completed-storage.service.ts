@@ -10,21 +10,25 @@ import { CompletedService } from '../services/completed.service';
 export class CompletedStorageService {
 
   constructor(private http: HttpClient,
-              private completedService: CompletedService) { }
+    private completedService: CompletedService) { }
 
 
 
-  storeCompletedTasks() {
-    const completedTasks: Task[] = this.completedService.getTasks();
-    this.http.put('https://task-project-35a94.firebaseio.com/completed.json', completedTasks).subscribe(
+  storeTask(task: Task) {
+    this.http.post('http://127.0.0.1:8080/api/completedtasks', task).subscribe(
       () => {
-        console.log(completedTasks);
-
+        console.log(task);
       }
     )
   }
+  deleteTask(id){
+    this.http.delete('http://127.0.0.1:8080/api/completedtasks/'+ id, 
+    ).subscribe(
+      ()=> console.log('task deleted')  
+    )
+  }
   fetchTasks() {
-    return this.http.get<Task[]>('https://task-project-35a94.firebaseio.com/completed.json')
+    return this.http.get<Task[]>('http://127.0.0.1:8080/api/completedtasks')
       .pipe(map(tasks => {
         return tasks.map((task) => {
           return { ...task };

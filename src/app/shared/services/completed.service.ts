@@ -7,6 +7,8 @@ import { Subject } from 'rxjs';
 })
 export class CompletedService {
   completedTasksChanged = new Subject<Task[]>()
+  askToSaveCompleted= new Subject<Task>()
+  askToDeleteCompleted = new Subject<string>()
   constructor() { }
 
   private tasks: Task[] = [];
@@ -23,9 +25,12 @@ export class CompletedService {
   saveNewTask(newTask: Task){
     this.tasks.push(newTask);
     this.completedTasksChanged.next(this.tasks.slice());
+    this.askToSaveCompleted.next(newTask);
   }
   deleteTask(index: number){
+    const taskToDelete = this.tasks[index]
     this.tasks.splice(index, 1);
     this.completedTasksChanged.next(this.tasks.slice());
+    this.askToDeleteCompleted.next(taskToDelete.id)
   }
 }

@@ -49,6 +49,9 @@ export class ListComponent implements OnInit {
         }
       }
     )
+    this.tasksService.askToDelete.subscribe(
+      id => this.dataStorage.deleteTask(id)
+    )
   }
   onEditTask(index){
     if(!this.isAdmin){
