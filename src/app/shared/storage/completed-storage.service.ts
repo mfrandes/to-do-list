@@ -15,27 +15,27 @@ export class CompletedStorageService {
 
 
   storeTask(task: Task) {
-    this.http.post('http://127.0.0.1:8080/api/completedtasks', task).subscribe(
+    this.http.post('http://127.0.0.1:8080/api/tasks', task).subscribe(
       () => {
         console.log(task);
       }
     )
   }
   deleteTask(id){
-    this.http.delete('http://127.0.0.1:8080/api/completedtasks/'+ id, 
+    this.http.delete('http://127.0.0.1:8080/api/tasks/'+ id, 
     ).subscribe(
       ()=> console.log('task deleted')  
     )
   }
   fetchTasks() {
-    return this.http.get<Task[]>('http://127.0.0.1:8080/api/completedtasks')
+    return this.http.get<Task[]>('http://127.0.0.1:8080/api/tasks')
       .pipe(map(tasks => {
         return tasks.map((task) => {
           return { ...task };
         })
       }),
         tap(tasks => {
-          this.completedService.setTasks(tasks)
+         
         })
       )
   }

@@ -62,8 +62,8 @@ export class ListComponent implements OnInit {
   }
   onSendToCompleted(index: number){
     const taskToSend = this.tasksService.geTask(index);
+    taskToSend.isCompleted = true;
     this.completeService.saveNewTask(taskToSend);
-    this.onDelete(index);
   }
   onDelete(index: number){
     if(!this.isAdmin){

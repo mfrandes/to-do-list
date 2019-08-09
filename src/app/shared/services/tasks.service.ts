@@ -24,7 +24,11 @@ export class TasksService {
     this.savedTask.next(newTask)
   }
   setTasks(tasks : Task[]) {
-    this.tasks = tasks;
+    for(let i=0; i<tasks.length; i++){
+      if(!tasks[i].isCompleted){
+        this.tasks.push(tasks[i])
+      }
+    }
     this.tasksChanged.next(this.tasks.slice());
   }
   geTask(index:number) {

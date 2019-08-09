@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CompletedService } from 'src/app/shared/services/completed.service';
 import { Task } from 'src/app/shared/task.model';
-import { CompletedStorageService } from 'src/app/shared/storage/completed-storage.service';
 import { TasksService } from 'src/app/shared/services/tasks.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { DataStorageService } from 'src/app/shared/storage/data-storage.service';
 
 @Component({
   selector: 'app-completed',
@@ -14,12 +14,12 @@ export class CompletedComponent implements OnInit {
   completTasks: Task[];
   isAdmin = false;
   constructor(private completedService: CompletedService,
-              private completedStorage: CompletedStorageService,
+              private dataStorage: DataStorageService,
               private tasksService: TasksService,
               private authService: AuthService) { }
 
   ngOnInit() {
-    this.completedStorage.fetchTasks().subscribe()
+    this.dataStorage.fetchTasks().subscribe()
     this.completTasks= this.completedService.getTasks()
     this.completedService.completedTasksChanged.subscribe(
       (tasks: Task[]) =>{
@@ -27,10 +27,10 @@ export class CompletedComponent implements OnInit {
       }
     )
     this.completedService.askToSaveCompleted.subscribe(
-      task => this.completedStorage.storeTask(task)
+      task => this.dataStorage.updateTask(task)
     )
     this.completedService.askToDeleteCompleted.subscribe(
-      id => this.completedStorage.deleteTask(id)
+      id => this.dataStorage.deleteTask(id)
     )
     this.authService.user.subscribe(
       user =>{
@@ -47,8 +47,8 @@ export class CompletedComponent implements OnInit {
   }
   onSendTasks(index: number){
     const taskToSend = this.completedService.geTask(index);
+    taskToSend.isCompleted = false;
     this.tasksService.saveNewTask(taskToSend);
-    this.onDelete(index);
   }
   onDelete(index: number){
     if(!this.isAdmin){

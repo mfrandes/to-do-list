@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { TasksService } from '../services/tasks.service';
 import { Task } from '../task.model';
-import { map, tap, take, exhaustMap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { CompletedService } from '../services/completed.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,8 @@ import { map, tap, take, exhaustMap } from 'rxjs/operators';
 export class DataStorageService {
 
   constructor(private http: HttpClient,
-              private tsksService: TasksService) { }
+              private tsksService: TasksService,
+              private completedService: CompletedService) { }
   
   /*storeTasks(){
   const tasks:Task[]= this.tsksService.getTasks();
@@ -51,6 +53,7 @@ export class DataStorageService {
     }),
       tap( tasks => {
        this.tsksService.setTasks(tasks)
+       this.completedService.setTasks(tasks)
     })
     )
   }

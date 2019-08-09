@@ -12,8 +12,13 @@ export class CompletedService {
   constructor() { }
 
   private tasks: Task[] = [];
+
   setTasks(tasks : Task[]) {
-    this.tasks = tasks;
+    for(let i=0; i<tasks.length; i++){
+      if(!tasks[i].isCompleted){
+        this.tasks.push(tasks[i])
+      }
+    }
     this.completedTasksChanged.next(this.tasks.slice());
   }
   getTasks(){
