@@ -19,7 +19,6 @@ export interface AuthResponseData{
 @Injectable({
   providedIn: 'root'
 })
-// de rezolvat token expires
 export class AuthService {
   user= new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;

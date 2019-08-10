@@ -1,75 +1,90 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TasksService } from '../../shared/services/tasks.service';
 import { Task } from 'src/app/shared/task.model';
 import { DataStorageService } from 'src/app/shared/storage/data-storage.service';
-import { CompletedService } from 'src/app/shared/services/completed.service';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css']
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
   tasks: Task[];
   isAdmin = false;
   samallWindow = false;
+
+  storageSub: Subscription;
+  tskChangeSub: Subscription;
+  taskSave: Subscription;
+  taskUpdate: Subscription;
+  taskDelete: Subscription;
+
   constructor(private tasksService: TasksService,
-              private dataStorage: DataStorageService,
-              private completeService: CompletedService,
-              private authService: AuthService) { }
+    private dataStorage: DataStorageService,
+    private authService: AuthService) { }
 
   ngOnInit() {
-    this.dataStorage.fetchTasks().subscribe();
+    this.storageSub = this.dataStorage.fetchTasks().subscribe();
     this.tasks = this.tasksService.getTasks()
-    this.tasksService.tasksChanged.subscribe(
+    this.tskChangeSub = this.tasksService.tasksChanged.subscribe(
       (tasks: Task[]) => {
         this.tasks = tasks
       }
     )
-    this.tasksService.savedTask.subscribe(
+    this.taskSave = this.tasksService.savedTask.subscribe(
       task => {
         this.dataStorage.storeTask(task)
       }
     )
-    this.tasksService.savedTaskUpdate.subscribe(
+    this.taskUpdate = this.tasksService.savedTaskUpdate.subscribe(
       task => {
         this.dataStorage.updateTask(task)
       }
     )
+    this.taskDelete = this.tasksService.askToDelete.subscribe(
+      id => this.dataStorage.deleteTask(id)
+    )
+
     this.authService.user.subscribe(
-      user =>{
-        if(!user){
+      user => {
+        if (!user) {
           return
         }
-        if(user.admin){
-          this.isAdmin = true;          
+        if (user.admin) {
+          this.isAdmin = true;
         } else {
           this.isAdmin = false;
         }
       }
     )
-    this.tasksService.askToDelete.subscribe(
-      id => this.dataStorage.deleteTask(id)
-    )
   }
-  onEditTask(index){
-    if(!this.isAdmin){
+  onEditTask(index) {
+    if (!this.isAdmin) {
       alert('Only Admin can perform this action!')
       return
     }
     this.tasksService.startedEditing.next(index)
   }
-  onSendToCompleted(index: number){
-    const taskToSend = this.tasksService.geTask(index);
+  onSendToCompleted(index: number) {
+    const taskToSend = this.tasksService.getTask(index);
     taskToSend.isCompleted = true;
-    this.completeService.saveNewTask(taskToSend);
+    this.tasksService.switchCompleted(index, taskToSend);
   }
-  onDelete(index: number){
-    if(!this.isAdmin){
+  onDelete(index: number) {
+    if (!this.isAdmin) {
       alert('Only Admin can perform this action!')
       return
     }
-    this.tasksService.deleteTask(index)
+    const taskToDelete = this.tasksService.getTask(index)
+    this.tasksService.deleteTask(index, taskToDelete)
+  }
+  ngOnDestroy() {
+    this.tskChangeSub.unsubscribe();
+    this.storageSub.unsubscribe();
+    this.taskSave.unsubscribe();
+    this.taskUpdate.unsubscribe();
+    this.taskDelete.unsubscribe();
   }
 }

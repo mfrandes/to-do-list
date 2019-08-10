@@ -21,7 +21,7 @@ export class ListEditComponent implements OnInit {
       (index: number) => {
         this.editedIndex = index;
         this.editMode = true;
-        this.editedTask = this.tasksService.geTask(this.editedIndex)
+        this.editedTask = this.tasksService.getTask(this.editedIndex)
         console.log(this.editedTask.id);
         
         this.taskForm.setValue({
@@ -36,9 +36,11 @@ export class ListEditComponent implements OnInit {
     const value = form.value;
     const newTask = new Task(value.task, value.detail);
     if(this.editMode){
-      newTask.id = this.editedTask.id
+      newTask.id = this.editedTask.id;
+      newTask.isCompleted = this.editedTask.isCompleted;
       this.tasksService.updateTask(this.editedIndex, newTask)
     } else {
+      newTask.isCompleted = false;
       this.tasksService.saveNewTask(newTask)
     }    
     this.onClear()
